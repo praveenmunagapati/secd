@@ -1,0 +1,75 @@
+// #include<stdio.h> //preprocessing diresctive
+// int main() // main function indicated staring of your logic
+// { // indicated this block of code belonges to main function
+//     printf("praveen");//prints Prraveen in standard output i.e cmd or terminal
+//     return 0;//indicates main returns an integers
+// }
+// #include<stdio.h>
+// int main() {
+//     int a = 10;
+//     printf("%p",&a);//prints memory in hex value
+//     return 0;
+// }
+
+// #include<stdio.h>
+// int main() {
+//     unsigned int side;
+//     side = 50;
+//     unsigned int volume;
+//     volume = side * side * side;
+//     //bin(125000)
+//     //'11110100001001000'
+//     ////bin(59464)
+//     //'1110100001001000'
+//     printf("%u", volume);
+//     return 0;
+// }
+// binanry conversion
+// binary addition
+// hexadeimal conversion
+//negetive binary number representation
+// algorithm
+// flowchart
+// psuedocode
+//c keywords
+//c program structure
+//variable construction rules
+// data types their sizes
+//opearators upto arthematic
+
+// #include<stdio.h>
+// #define  PI 3.14
+// int main() {
+//    //void
+//     //char
+//     //short
+//     //int
+//     //float
+//     //long
+//     //double
+//     //signed
+//     //unsigned
+//     //sizeof()
+//
+//     // area of circle
+//     //areaofcircle = pi*rp2
+//     //areaofcircle = 3.14*radius*radius
+//
+//     double radius;
+//     radius = 1;
+//     double areaofcircle ;
+//     areaofcircle = PI*radius*radius;
+//     printf("%lf",areaofcircle);
+//
+//
+//     return 0;
+// }
+
+
+#include<stdio.h>
+int main() {
+
+//task regtangle
+    //area of regtangle
+    return 0;
+}

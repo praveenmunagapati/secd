@@ -1,0 +1,1135 @@
+C:\Users\sir\CLionProjects\c\cmake-build-debug\c.exe
+============================================================================
+  THE DEFINITIVE C PROGRAMMING LANGUAGE ΓÇö COMPLETE GUIDE
+  Every topic, every concept, with theory and code
+============================================================================
+
+============================================================
+  SECTION 1: PROGRAM STRUCTURE & COMPILATION
+============================================================
+
+  Program execution flow:
+    OS Loader -> _start -> CRT init -> main() -> exit() -> atexit handlers
+
+  main() return values:
+    return 0;          -> success (same as EXIT_SUCCESS)
+    return EXIT_FAILURE; -> failure (typically 1)
+    return EXIT_SUCCESS; -> success (typically 0)
+
+  Compilation pipeline:
+    .c -> [cpp] -> .i -> [cc1] -> .s -> [as] -> .o -> [ld] -> executable
+
+  Key compiler flags:
+    -std=c11          Use C11 standard
+    -Wall -Wextra     Enable warnings
+    -Wpedantic        Strict ISO compliance
+    -O0/-O1/-O2/-O3   Optimization levels
+    -g                Debug symbols
+    -fsanitize=address Memory error detection
+    -fsanitize=undefined UB detection
+    -fsanitize=thread  Data race detection
+
+============================================================
+  SECTION 2: LEXICAL ELEMENTS
+============================================================
+
+  Integer bases: decimal=42, octal=42, hex=42 (all equal 42)
+  Suffixes: ULL=18446744073709551615, LL=9223372036854775807, u=42, L=42
+  Floats: double=3.140000, float=3.140000, long double=3.140000
+  Scientific: 314e-2 = 3.140000
+  Hex float: 0x1.921fb5p+1 = 3.1415926218
+
+  Escape sequences:
+    \n  = newline       \t  = tab
+    \\  = backslash     \'  = single quote
+    \" = double quote   \0  = null character
+    \a  = alert(bell)   \b  = backspace
+    \f  = form feed     \r  = carriage return
+    \v  = vertical tab  \?  = literal question mark
+    \101 = octal 'A'    \x41 = hex 'A'
+    \u00E9 = Unicode ├⌐   \U0001F600 = Unicode ≡ƒÿÇ
+    \101 = 'A', \x41 = 'A'
+
+  String literals:
+    Concatenated: "Hello, world! These are concatenated."
+    sizeof("Hello") = 6 (5 chars + \0 = 6 bytes)
+
+  Digraphs (alternative spellings):
+    <: = [    :> = ]    <% = {    %> = }
+    %: = #    %:%: = ##
+    digraph_arr<:2:> = 30 (same as digraph_arr[2])
+
+  Predefined macros:
+    __FILE__          = C:/Users/sir/CLionProjects/c/main.c
+    __LINE__          = 303
+    __DATE__          = Aug 24 2026
+    __TIME__          = 15:46:20
+    __STDC__          = 1
+    __STDC_VERSION__  = 202311L
+    __func__          = section_02_lexical_elements
+    sizeof(int)       = 4 bytes
+    sizeof(void*)     = 8 bytes
+
+============================================================
+  SECTION 3: DATA TYPES
+============================================================
+
+  --- Integer Types ---
+  Type                  Size                  Min                  Max
+  ----                  ----                  ---                  ---
+  char                   1 B                 -128                  127
+  signed char            1 B                 -128                  127
+  unsigned char          1 B                    0                  255
+  short                  2 B               -32768                32767
+  unsigned short         2 B                    0                65535
+  int                    4 B          -2147483648           2147483647
+  unsigned int           4 B                    0           4294967295
+  long                   4 B          -2147483648           2147483647
+  unsigned long          4 B                    0           4294967295
+  long long              8 B -9223372036854775808  9223372036854775807
+  unsigned long long     8 B                    0 18446744073709551615
+
+  Plain 'char' signedness: SIGNED (char c = -1 -> -1)
+
+  --- Exact-Width Integers (<stdint.h>) ---
+  int8_t   max: 127
+  int16_t  max: 32767
+  int32_t  max: 2147483647
+  int64_t  max: 9223372036854775807
+  uint8_t  max: 255
+  uint16_t max: 65535
+  uint32_t max: 4294967295
+  uint64_t max: 18446744073709551615
+
+  --- Minimum-Width & Fastest Types ---
+  int_least32_t  max: 2147483647 (size=4)
+  int_fast32_t   max: 2147483647 (size=4)
+  intmax_t       max: 9223372036854775807 (size=8)
+  intptr_t       max: 9223372036854775807 (size=8)
+  size_t         max: 18446744073709551615 (size=8)
+
+  --- Boolean Type ---
+  _Bool b1=1, bool true=1, false=0, 42->1
+
+  --- Floating-Point Types ---
+  float          4 B  digits=6  max=3.402823e+38 eps=1.192093e-07
+  double         8 B  digits=15 max=1.797693e+308 eps=2.220446e-16
+  long double   16 B  digits=18 max=1.189731e+4932 eps=1.084202e-19
+
+  --- Special Float Values ---
+  INFINITY:     inf
+  -INFINITY:    -inf
+  NAN:          nan
+  -0.0:         -0.000000 (== 0.0? yes)
+  NAN == NAN:   false (NaN is not equal to anything!)
+  isinf(INF):   1
+  isnan(NAN):   -1
+  isfinite(1.0):1
+
+  --- Precision Loss ---
+  0.1 + 0.2 = 0.30000000000000004441
+  0.1 + 0.2 == 0.3? FALSE (ALWAYS use epsilon comparison!)
+  fabs(0.1+0.2 - 0.3) < 1e-15? true
+
+  --- Complex Numbers (C99) ---
+  z = 3.000000 + 4.000000i
+  |z| = 5.000000
+  z * conj(z) = 25.000000
+
+  --- Integer Representation ---
+  Most systems use two's complement (mandated in C23)
+  CHAR_BIT = 8 bits per byte
+  -42 in two's complement (32-bit): 11111111 11111111 11111111 11010110
+
+  --- Endianness ---
+  0x01020304 in memory: 04 03 02 01 -> Little-Endian
+
+  --- Alignment ---
+  alignof(char)   = 1
+  alignof(short)  = 2
+  alignof(int)    = 4
+  alignof(double) = 8
+  alignof(void*)  = 8
+
+============================================================
+  SECTION 4: OPERATORS
+============================================================
+
+  --- Arithmetic ---
+  17 + 5 = 22 (addition)
+  17 - 5 = 12 (subtraction)
+  17 * 5 = 85 (multiplication)
+  17 / 5 = 3 (integer division: truncates toward zero)
+  17 % 5 = 2 (modulo: sign follows dividend)
+  -17 / 5 = -3 (truncates toward zero, not -4)
+  -17 % 5 = -2 (sign follows dividend)
+
+  --- Increment/Decrement ---
+  i = 5
+  i++ returns 5 (post-increment: returns THEN increments), i becomes 6
+  ++i returns 7 (pre-increment: increments THEN returns)
+  i-- returns 7 (post-decrement), i becomes 6
+  --i returns 5 (pre-decrement)
+
+  --- Bitwise Operators ---
+  x     = 0xABCD1234
+  y     = 0x00FF00FF
+  x & y = 0x00CD0034 (AND:  both bits must be 1)
+  x | y = 0xABFF12FF (OR:   at least one bit is 1)
+  x ^ y = 0xAB3212CB (XOR:  bits are different)
+  ~x    = 0x5432EDCB (NOT:  flip all bits)
+  x<<4  = 0xBCD12340 (shift left 4: multiply by 16)
+  x>>4  = 0x0ABCD123 (shift right 4: divide by 16)
+
+  --- Bit Manipulation Idioms ---
+  Set bit 3:      0x00000008
+  Set bit 7:      0x00000088
+  Clear bit 3:    0x00000080
+  Toggle bit 7:   0x00000000
+  Test bit 7:     0
+  Test bit 3:     0
+  v = 0xB4
+  v & (v-1)       = 0xB0 (clear lowest set bit)
+  v & -v          = 0x04 (isolate lowest set bit)
+
+  --- Logical Operators (Short-Circuit) ---
+  p=0 is false -> q++ NOT evaluated, q still =5
+  p=1 is true -> q++ NOT evaluated, q still =5
+
+  --- Ternary Operator ---
+  42 is even
+  0 is zero
+
+  --- Comma Operator ---
+  c = (1, 2, 3, 4, 5) = 5
+  Comma in for loop: (0,10) (1,9) (2,8) (3,7) (4,6)
+
+  --- sizeof Operator ---
+  sizeof(int)    = 4
+  sizeof(arr)    = 40 (10 ints = 40 bytes)
+  sizeof(ptr)    = 8 (pointer, NOT array size)
+  sizeof(str)    = 6 (5 chars + \0 = 6)
+  sizeof(char)   = 1 (always 1 by definition)
+  sizeof(e++)    = 4, e still = 5 (e++ not evaluated!)
+
+  --- CRITICAL: Precedence Gotcha ---
+  a & b == c  parses as  a & (b == c)  NOT  (a & b) == c
+  a | b & c  parses as  a | (b & c)   NOT  (a | b) & c
+  *p++       parses as  *(p++)         NOT  (*p)++
+  ALWAYS USE PARENTHESES when mixing bitwise and comparison!
+
+============================================================
+  SECTION 5: CONTROL FLOW
+============================================================
+
+  --- if/else ---
+  25┬░C: Comfortable
+  a=1 is true, b=0 is false
+
+  --- switch ---
+  Wednesday
+  Grade B: Good
+
+  --- while loop ---
+  Powers of 2: 1 2 4 8 16 32 64 128 256
+
+  --- do-while loop ---
+  Halving 100: 100 50 25 12 6 3 1
+  Action on 42
+  Done
+
+  --- for loop ---
+  Squares: 1 4 9 16 25 36 49 64 81 100
+  Parallel: (0,10) (1,9) (2,8) (3,7) (4,6)
+  Infinite loop iteration 1
+  Infinite loop iteration 2
+  Infinite loop iteration 3
+
+  --- break & continue ---
+  Break at 5: 0 1 2 3 4
+  Skip odd: 0 2 4 6 8
+
+  --- goto (nested loop exit) ---
+  Finding (i,j) where i*j > 20:
+    Found: i=3, j=7, i*j=21
+  (jumped out of nested loops via goto)
+
+  --- goto Cleanup Pattern ---
+  (The idiomatic C error-handling pattern)
+  FILE *f = NULL; char *buf = NULL;
+  f = fopen(...); if (!f) goto cleanup;
+  buf = malloc(...); if (!buf) goto cleanup;
+  // ... do work ...
+  cleanup:
+    free(buf);
+    if (f) fclose(f);
+    return err;
+
+============================================================
+  SECTION 6: ARRAYS
+============================================================
+
+  --- Initialization ---
+  Full:      10 20 30 40 50
+  Partial:   1 2 0 0 0
+  Zeros:     0 0 0 0 0
+  Deduced:   4 elements: 5 10 15 20
+  Designated: 1 0 0 0 0 50 0 0 0 100
+
+  --- Array Decay ---
+  sizeof(arr) = 20 (total: 5*4=20 bytes)
+  sizeof(ptr) = 8 (pointer size, NOT array size)
+  arr[2]     = 300
+  *(arr + 2) = 300 (pointer arithmetic: same thing)
+  ptr[2]     = 300 (subscript on pointer: same thing)
+
+  --- 2D Arrays (Row-Major) ---
+  matrix[1][2] = 7
+  *(*(matrix+1)+2) = 7 (pointer equivalent)
+  *((int*)matrix + 1*4+2) = 7 (flat index)
+  Memory layout (row-major): 1 2 3 4 5 6 7 8 9 10 11 12
+
+  --- Char Array vs String Pointer ---
+  Array:   "hello" (modifiable, sizeof=6)
+  Pointer: "Hello" (read-only, sizeof=8)
+
+  --- Variable-Length Arrays (C99) ---
+  VLA (n=7): 0 10 20 30 40 50 60
+  sizeof(vla) = 28 (evaluated at runtime!)
+  Caveats: no initialization, no static, stack-allocated, overflow risk
+
+  --- Pointer Traversal ---
+  Forward:  100 200 300 400 500
+  Backward: 500 400 300 200 100
+
+  --- In-Place Reversal ---
+  Reversed: 5 4 3 2 1
+
+============================================================
+  SECTION 7: POINTERS
+============================================================
+
+  --- Basic Pointers ---
+  x     = 42
+  &x    = 000000124f7ffd3c (address of x)
+  px    = 000000124f7ffd3c (value of px = address of x)
+  *px   = 42 (dereference: go to address, read value)
+  After *px = 100: x = 100
+
+  --- Null Pointers ---
+  NULL = 0000000000000000
+  Pointer is null (can't dereference safely)
+
+  --- Pointer Arithmetic ---
+  p       = 000000124f7ffd20, *p = 10
+  p + 1   = 000000124f7ffd24, *(p+1) = 20 (advanced 4 bytes)
+  p + 4   = 000000124f7ffd30, *(p+4) = 50
+  &arr[4] - &arr[0] = 4 elements
+  arr + 5 = 000000124f7ffd34 (one-past-the-end: valid pointer, can't dereference)
+
+  --- Const Pointers ---
+  const int *pci -> 20 (can change target, can't modify data)
+  int * const cpi -> 30 (can modify data, can't change target)
+  const int * const cpci -> 20 (neither can change)
+
+  --- void* (Generic Pointer) ---
+  void* -> int: 42
+  void* -> float: 3.140000
+
+  --- Double Pointer (pointer to pointer) ---
+  val  = 42 (address: 000000124f7ffd0c)
+  *pp1 = 42 (address: 000000124f7ffd0c)
+  **pp2= 42 (address: 000000124f7ffd0c)
+  After **pp2 = 100: val = 100
+  allocate_int: 999 at 000001f8a14d8530
+
+  --- Pass by Pointer (Simulated Pass by Reference) ---
+  Before swap: a=10, b=20
+  After swap:  a=20, b=10
+
+  --- Function Pointers ---
+  qsort with function pointer: 1 2 3 5 8 9
+  Syntax: return_type (*name)(param_types)
+  Example: int (*fp)(const void*, const void*) = int_compare;
+  Array of function pointers: int (*fpa[N])(...);
+  typedef: typedef int (*cmp_fn)(const void*, const void*);
+
+  --- Pointer to Array vs Array of Pointers ---
+  (*parr)[2] = 3 (pointer to array)
+  *aptr[3]   = 4 (array of pointers)
+
+  --- Dangling Pointer Warnings ---
+  NEVER return address of local variable:
+    int *bad(void) { int x = 5; return &x; } // UB!
+  NEVER use pointer after free:
+    free(p); *p = 1; // UB!
+  ALWAYS set to NULL after free:
+    free(p); p = NULL;
+
+============================================================
+  SECTION 8: FUNCTIONS
+============================================================
+
+  --- Pass by Value vs Pointer ---
+  Before: v = 42
+  After swap with 99: v = 99
+
+  --- Variadic Functions ---
+  sum(3, 10, 20, 30) = 60
+  sum(5, 1,2,3,4,5)  = 15
+  [LOG] User alice connected from 192.168.1.1:8080
+
+  --- Inline Function ---
+  square(7) = 49 (may be inlined by compiler)
+
+  --- Recursion ---
+  factorial(0) = 1
+  factorial(1) = 1
+  factorial(2) = 2
+  factorial(3) = 6
+  factorial(4) = 24
+  factorial(5) = 120
+  factorial(6) = 720
+  factorial(7) = 5040
+  factorial(8) = 40320
+  factorial(9) = 362880
+  factorial(10) = 3628800
+
+  --- Function Pointers & Dispatch Table ---
+  add(100, 30) = 130
+  sub(100, 30) = 70
+  mul(100, 30) = 3000
+
+  --- Callback Pattern ---
+  item[0]=10
+  item[1]=20
+  item[2]=30
+  item[3]=40
+  item[4]=50
+
+  --- Return Struct by Value ---
+  Point: (3.5, 7.2)
+
+  --- Best Practices ---
+  1. Always use prototypes (ANSI style)
+  2. Use 'void' for no-parameter functions: int f(void)
+  3. Use const for input-only pointer parameters
+  4. Use restrict for non-aliasing pointer parameters
+  5. Keep functions short and focused (single responsibility)
+  6. Document preconditions and postconditions
+
+============================================================
+  SECTION 9: STRUCTURES, UNIONS, AND ENUMS
+============================================================
+
+  --- Struct Basics ---
+  s1: Alice, age 20, GPA 3.9
+  s2: Bob, age 22, GPA 3.5
+  s3 = s1 copy: Alice
+  Compound literal: (3.0, 4.0)
+
+  --- Struct Memory Layout ---
+  sizeof(Layout) = 24
+  offsetof(a) = 0
+  offsetof(b) = 4
+  offsetof(c) = 8
+  offsetof(d) = 16
+  (Padding inserted for alignment ΓÇö compiler-dependent)
+
+  --- Bit-Fields ---
+  sizeof(TextFormat) = 4
+  bold=1, italic=0, underline=1, color=9, size=14
+  (Cannot take address of bit-field: &fmt.bold is an error)
+
+  --- Flexible Array Member (C99) ---
+  FlexArray: 100 200 300 400 500
+
+  --- Linked List (Self-Referential Struct) ---
+  List: 1 -> 2 -> 3 -> NULL
+
+  --- Unions ---
+  sizeof(Value) = 20 (size of largest member)
+  as int: 42
+  as float: 3.140000 (int value now INVALID)
+  as string: "hello" (int/float now INVALID)
+
+  --- Tagged Union (Discriminated) ---
+int: 42
+float: 2.718000
+string: "world"
+
+  --- Type Punning via Union ---
+  float 1.0f as unsigned: 0x3F800000 (IEEE 754 encoding)
+
+  --- Anonymous Struct/Union (C11) ---
+  Named: (10, 20)
+  Array: [10, 20] (same memory)
+
+  --- Enums ---
+  RED=0, GREEN=1, BLUE=2, ALPHA=255
+  color = 0
+  HTTP 200 OK
+
+  C does NOT support struct == struct comparison
+  Must compare member by member or use memcmp (careful with padding)
+
+============================================================
+  SECTION 10: DYNAMIC MEMORY MANAGEMENT
+============================================================
+
+  --- malloc (uninitialized) ---
+  malloc: 0 10 20 30 40
+
+  --- calloc (zero-initialized) ---
+  calloc: 0 0 0 0 0  (all zeros)
+
+  --- realloc (resize) ---
+  Before (3): 10 20 30
+  After (6):  10 20 30 40 50 60
+  realloc(NULL)[0] = 999
+
+  --- Dynamic Array (Growable) ---
+  DynArr (20/32): 0 1 4 9 16 25 36 49 64 81 100 121 144 169 196 225 256 289 324 361
+
+  --- 2D Dynamic Array ---
+  2D array:
+      1   2   3   4
+      5   6   7   8
+      9  10  11  12
+
+  --- Memory Safety Rules ---
+  1. Always check malloc/calloc/realloc return (NULL = failure)
+  2. Always free what you allocate
+  3. Never use memory after free (use-after-free)
+  4. Never free the same pointer twice (double free)
+  5. Set pointer to NULL after free
+  6. Allocate strlen(s)+1 for string copies
+  7. Check for integer overflow: nmemb * size could overflow
+  8. Use Valgrind, ASan, MSan to detect bugs
+
+============================================================
+  SECTION 11: STRINGS
+============================================================
+
+  --- String Basics ---
+  greeting: "Hello" (sizeof=6, strlen=5)
+  literal:  "World" (sizeof=8 = pointer size)
+
+  --- Safe Formatting (snprintf) ---
+  snprintf (32 chars): "Name: Alice, Age: 30, Pi: 3.1416"
+  Truncated (26 wanted): "This is a"
+
+  --- strcpy / strncpy ---
+  strcpy: "Hello" (DANGEROUS: no bounds check)
+  strncpy: "Hello" (truncated, manually null-terminated)
+
+  --- strcat / strncat ---
+  strcat: "/home/user/file.txt"
+  strncat: "Hello, World!!!"
+
+  --- strcmp ---
+  strcmp("abc", "abc") = 0 (equal)
+  strcmp("abc", "abd") = -1 (a < b)
+  strcmp("abd", "abc") = 1 (b > a)
+
+  --- Search Functions ---
+  strchr('H'):  "Hello, World! Hello, C!"
+  strrchr('H'): "Hello, C!"
+  strstr("World"): "World! Hello, C!"
+  strstr("xyz"):   (null)
+
+  --- strtok (destructive, not reentrant) ---
+  Tokens: [one] [two] [four] [five]
+
+  --- memcpy / memmove / memset / memcmp ---
+  memcpy: 1 2 3 4 5
+  memmove (overlap): 3 4 5 6 7 6 7 8
+  memset: "AAAAAAAAAA"
+  memcmp("abc","abd",3) = -1
+
+  --- String-to-Number ---
+  atoi("42") = 42 (no error detection)
+  strtol("12345") = 12345
+  strtol("0xFF", base=16) = 255
+  strtod("3.14159") = 3.141590
+
+  --- Character Classification (<ctype.h>) ---
+  'A': alpha=1 digit=0 upper=1 lower=0 space=0 punct=0
+  'a': alpha=2 digit=0 upper=0 lower=2 space=0 punct=0
+  '1': alpha=0 digit=1 upper=0 lower=0 space=0 punct=0
+  '!': alpha=0 digit=0 upper=0 lower=0 space=0 punct=16
+  ' ': alpha=0 digit=0 upper=0 lower=0 space=8 punct=0
+  toupper('a')='A', tolower('Z')='z'
+
+============================================================
+  SECTION 12: PREPROCESSOR
+============================================================
+
+  --- Object-Like Macros ---
+  PI = 3.141593
+  MAX_BUF = 1024
+
+  --- Function-Like Macros ---
+  MAX(10, 20) = 20
+  MIN(10, 20) = 10
+  ABS(-42) = 42
+  CLAMP(15, 0, 10) = 10
+  ARRAY_SIZE = 5
+  Before SWAP: a=10, b=20
+  After SWAP:  a=20, b=10
+
+  --- MACRO SIDE EFFECT WARNING ---
+  MAX(i++, j++) evaluates one side TWICE!
+  Use inline functions for expressions with side effects
+
+  --- Token Pasting (##) ---
+  coord_x = 10, coord_y = 20
+
+  --- Stringification (#) ---
+  STRINGIFY(Hello World) = "Hello World"
+  sv = 42
+
+  --- Variadic Macros ---
+
+  --- X-Macro Pattern ---
+  RED_COLOR=0xFF0000, GREEN_COLOR=0x00FF00, BLUE_COLOR=0x0000FF
+
+  --- Predefined Macros ---
+  __FILE__         = C:/Users/sir/CLionProjects/c/main.c
+  __LINE__         = 2170
+  __DATE__         = Aug 24 2026
+  __TIME__         = 15:46:20
+  __STDC_VERSION__ = 202311
+  __func__         = section_12_preprocessor
+
+  --- Conditional Compilation ---
+  Platform: Windows
+  Compiler: GCC 15.2
+
+  --- Preprocessor Best Practices ---
+  1. UPPER_CASE for macro names
+  2. Parenthesize ALL macro arguments
+  3. do { ... } while(0) for multi-statement macros
+  4. Prefer const/enum/inline over #define
+  5. Include guards in every header
+  6. Be aware of multiple evaluation
+
+============================================================
+  SECTION 13: INPUT/OUTPUT
+============================================================
+[LOG C:/Users/sir/CLionProjects/c/main.c:2160] Server started on port 8080
+
+  --- printf Format Specifiers ---
+  %d:   42
+  %u:   42
+  %o:   52 (octal)
+  %x:   ff (hex)
+  %X:   FF (HEX)
+  %f:   3.141590
+  %.2f: 3.14
+  %e:   1.234568e+05 (scientific)
+  %g:   123457 (shorter)
+  %a:   0x1.921f9f01b866ep+1 (hex float)
+  %c:   A
+  %s:   hello
+  %p:   00007ff60409e770
+  %zu:  4 (size_t)
+  %08x: 0000002a (zero-padded)
+  %+d:  +42 (show sign)
+  %10d: "        42" (right-align)
+  %-10d:"42        " (left-align)
+  %%:  literal percent
+
+  --- File I/O ---
+  Wrote 3 lines to /tmp/c_master_test.txt
+  File contents:
+    > Line 1: Hello, File!
+    > Line 2: Number = 42
+    > Line 3: Pi = 3.141593
+  (EOF reached)
+
+  --- Binary I/O ---
+  Read 5 ints: 10 20 30 40 50
+
+  --- File Positioning ---
+  File size: 66 bytes
+
+  --- sscanf ---
+  sscanf matched 3: name="Alice", age=25, score=95.5
+
+============================================================
+  SECTION 14: TYPE CONVERSIONS
+============================================================
+
+  --- Integer Promotion ---
+  char 100 + char -56 = int 44 (promoted before addition)
+  sizeof('A') = 4 (char promoted to int)
+
+  --- Usual Arithmetic Conversions ---
+  int + double -> double: 13.140000
+  float + int -> float: 12.500000
+
+  --- SIGNED/UNSIGNED MIXING (DANGER!) ---
+  ui = 4294967295 (UINT_MAX)
+  si = -1 (-1)
+  ui == si? TRUE (signed -1 converted to unsigned UINT_MAX!)
+  LESSON: Never compare signed and unsigned!
+
+  --- Narrowing Conversions ---
+  (int)3.99 = 3 (truncation toward zero)
+  (float)16777217 = 16777216.000000 -> (int)16777216.000000 = 16777216 (precision lost!)
+
+  --- _Generic (C11) ---
+  type_name(42)    = "int"
+  type_name(42L)   = "long"
+  type_name(42LL)  = "long long"
+  type_name(3.14f) = "float"
+  type_name(3.14)  = "double"
+  type_name("hi")  = "char*"
+
+  --- Boolean Context ---
+  (0) is false
+  (1) is true
+  (-1) is true
+  (42) is true
+  (-100) is true
+  Any non-zero value is true in C
+
+============================================================
+  SECTION 15: SCOPE, LINKAGE, STORAGE DURATION
+============================================================
+
+  --- Linkage ---
+  global_extern (external): 100
+  file_static (internal):   200
+  --- Block Scope & Shadowing ---
+  Outer x = 10
+  Inner x = 20 (shadows outer)
+  Deepest x = 30
+  Inner x = 20
+  Outer x = 10 (restored)
+
+  --- Static Local (Persists Across Calls) ---
+  counter() call #1
+  counter() call #2
+  counter() call #3
+
+  --- Loop Variable Scope (C99+) ---
+  loop i = 0
+  loop i = 1
+  loop i = 2
+
+  --- Summary ---
+  Scope:     WHERE a name is visible
+  Linkage:   WHETHER names across scopes match
+  Lifetime:  WHEN storage exists
+  These three are INDEPENDENT concepts!
+
+============================================================
+  SECTION 16: ERROR HANDLING
+============================================================
+
+  --- Return Value Pattern ---
+  10 / 3 = 3 (Success)
+  10 / 0 = 0 (Out of range)
+
+  --- errno ---
+  strtod overflow: errno=34 (ERANGE=34)
+  fopen failed: No such file or directory
+
+  --- Goto Cleanup Pattern ---
+  process_data: Success (output=5)
+
+  --- setjmp/longjmp ---
+  setjmp returned 0 (initial)
+  longjmp returned 3 (error from depth 3)
+
+  --- Assertions ---
+  assert(42 == 42): passed
+  _Static_assert: passed at compile time
+
+============================================================
+  SECTION 17: CONCURRENCY
+============================================================
+
+  --- Race Condition Demo ---
+  Unsafe counter: 121878 (expected 400000, likely LESS due to race)
+  Atomic counter: 400000 (exact: 400000)
+  Mutex counter:  400000 (exact: 400000)
+
+  --- Thread Return Values ---
+  Sum of 1 to 1000 = 500500
+
+  --- Atomic Operations ---
+  counter: 7
+  CAS(7->100): success, counter=100
+
+  --- Concurrency Best Practices ---
+  1. Use atomics for simple counters/flags
+  2. Use mutexes for complex critical sections
+  3. Use condition variables for signaling
+  4. Always check condition in while loop (spurious wakeups)
+  5. Data races are UB ΓÇö use -fsanitize=thread
+  6. Prefer memory_order_seq_cst unless you have specific needs
+
+============================================================
+  SECTION 18: SIGNAL HANDLING
+============================================================
+
+  Standard signals:  perror: No such file or directory
+
+    SIGINT  ( 2): Ctrl+C
+    SIGTERM (15): Termination request
+    SIGSEGV (11): Segmentation fault
+    SIGABRT (22): Abort
+    SIGFPE  ( 8): Arithmetic exception
+    SIGILL  ( 4): Illegal instruction
+
+  Caught signal 2 via handler
+
+  Signal handler rules:
+    1. Only access volatile sig_atomic_t variables
+    2. Only call async-signal-safe functions
+    3. write() is safe, printf() is NOT
+    4. Use sigaction() on POSIX for reliable handling
+
+============================================================
+  SECTION 19: MATH, TIME, RANDOM
+============================================================
+
+  --- Math Functions ---
+  sqrt(2)    = 1.414213562373095
+  pow(2,10)  = 1024
+  exp(1)     = 2.718281828459045 (e)
+  log(e)     = 1.000000000000000
+  sin(pi/2)  = 1.000000000000000
+  cos(0)     = 1.000000000000000
+  atan2(1,1) = 0.785398163397448 (pi/4)
+  ceil(2.3)  = 3
+  floor(2.7) = 2
+  round(2.5) = 3
+  fma(2,3,4) = 10 (2*3+4)
+  hypot(3,4) = 5
+  erf(1)     = 0.842700792949715
+  fabs(-42)  = 42
+
+  --- Time Functions ---
+  Current time: 2026-08-24 15:46:28
+  CPU time (1M iterations): 0.002000 sec
+  High-res: 1787566588.865610900 sec
+
+  --- Random Numbers ---
+  RAND_MAX = 32767
+  Random [1,100]: 58 59 79 5 53 29 42 66 6 26
+  Random [0,1):   0.5652 0.4382 0.7494 0.4626 0.5717
+  WARNING: rand() is low quality. Use /dev/urandom or arc4random
+
+============================================================
+  SECTION 20: DATA STRUCTURES
+============================================================
+
+  --- Linked List (Intrusive) ---
+  List: Alice(id=1) -> Bob(id=2) -> Charlie(id=3) -> NULL
+  After removing Bob: Alice -> Charlie -> NULL
+
+  --- Hash Table ---
+  Alice: 98
+  Bob: 87
+  Charlie: 92
+  Diana: NOT FOUND
+
+  --- Stack (LIFO) ---
+  Pop order: 50 40 30 20 10
+
+============================================================
+  SECTION 21: UB, UNSPECIFIED, IMPLEMENTATION-DEFINED
+============================================================
+
+  --- Undefined Behavior (NEVER DO THESE) ---
+  1. Signed overflow:     int x = INT_MAX; x++; // UB!
+  2. NULL dereference:    int *p = NULL; *p = 42; // UB!
+  3. Out-of-bounds:       int a[5]; a[10] = 1; // UB!
+  4. Uninitialized:       int x; printf("%d", x); // UB!
+  5. Modify string lit:   char *s="hi"; s[0]='H'; // UB!
+  6. Double free:         free(p); free(p); // UB!
+  7. Use after free:      free(p); *p = 1; // UB!
+  8. Sequence point:      i = i++ + ++i; // UB!
+  9. Shift overflow:      1 << 32 (if int is 32-bit) // UB!
+  10. Aliasing:           float f; int *p=(int*)&f; // UB!
+
+  Unsigned wrapping (well-defined): UINT_MAX + 1 = 0
+
+  --- Unspecified Behavior ---
+  1. f(g(), h()) ΓÇö which function runs first? unspecified
+  2. a[i] = i++ ΓÇö which i is used? unspecified
+  3. Struct padding bytes ΓÇö value unspecified
+
+  --- Implementation-Defined ---
+  sizeof(int)       = 4
+  sizeof(long)      = 4
+  char signedness   = signed
+  Byte order        = little-endian
+  -16 >> 2          = -4 (implementation-defined for signed)
+
+  --- Safety Compiler Flags ---
+  -Wall -Wextra           General warnings
+  -Wconversion            Narrowing conversions
+  -fsanitize=undefined    Runtime UB detection
+  -fsanitize=address      Memory errors
+  -fsanitize=thread       Data races
+  -fwrapv                 Make signed overflow defined
+  -fno-strict-aliasing    Disable aliasing optimization
+
+============================================================
+  SECTION 22: PERFORMANCE OPTIMIZATION
+============================================================
+
+  --- Compiler Optimization Flags ---
+  -O0   : No optimization (debug)
+  -O1   : Basic optimizations
+  -O2   : Standard (recommended for production)
+  -O3   : Aggressive (may increase code size)
+  -Os   : Optimize for size
+  -Ofast: O3 + fast-math (may break IEEE)
+  -march=native : Optimize for current CPU
+  -flto : Link-Time Optimization
+  -fprofile-generate / -fprofile-use : PGO
+
+  --- Key Optimization Techniques ---
+  1. restrict qualifier: enables auto-vectorization
+     void add(int *restrict d, const int *restrict a,
+              const int *restrict b, int n);
+  2. Cache-friendly access: sequential >> strided
+     Row-major traversal of 2D arrays
+  3. Strength reduction: replace i*i with incremental addition
+  4. Inline small functions: static inline int square(int x)
+  5. Avoid unnecessary allocations in hot loops
+  6. Use __builtin_expect() for branch prediction hints
+  7. SIMD intrinsics: <immintrin.h> for SSE/AVX
+  8. Profile-Guided Optimization for real workloads
+  9. Link-Time Optimization for cross-file inlining
+  10. Measure with clock_gettime(CLOCK_MONOTONIC), not guess!
+
+  --- Cache Access Pattern Demo ---
+  Row-major (sequential):  2.72 ms
+  Column-major (strided):  5.40 ms
+  Ratio: 1.99x slower for strided access
+  (Due to CPU cache line fetching ΓÇö each cache line is 64 bytes)
+
+============================================================
+  SECTION 23: SECURITY
+============================================================
+
+  --- Safe String Operations ---
+  Safe copy: "This is a very long" (truncated)
+  Safe format: "Hello, World!"
+
+  --- Integer Overflow Check ---
+  Overflow detected! nmemb * size would wrap
+
+  --- Format String Safety ---
+  Safe: printf("%s", user_input) -> "Hello %s %s %n"
+
+  --- Security Checklist ---
+  [x] snprintf instead of sprintf
+  [x] fgets instead of gets (removed in C11)
+  [x] Check malloc/calloc/realloc return values
+  [x] Validate all external input
+  [x] Never use user input as printf format string
+  [x] Check integer overflow before size calculations
+  [x] Zero sensitive data with volatile before free
+  [x] Compile with -Wall -Wextra -Wformat-security
+  [x] Use -fsanitize=address,undefined in testing
+  [x] Follow CERT C or MISRA C coding standards
+  [x] Use static analysis: cppcheck, clang-tidy, Coverity
+  [x] Enable -fstack-protector-strong
+  [x] Enable -D_FORTIFY_SOURCE=2
+
+============================================================
+  SECTION 24: EMBEDDED C & SYSTEMS PROGRAMMING
+============================================================
+
+  --- Memory-Mapped I/O ---
+  UART CR = 0x00000003 (EN=1, TX=2)
+  UART SR = 0x00000003 (TXE=1, RXNE=2)
+
+  --- Register Bit Manipulation ---
+  Set 3,7:     0x00000088
+  Clear 3:     0x00000080
+  Test 7:      set
+
+  --- Protocol Endianness ---
+  Host 0x1234 -> Big-endian 0x3412
+
+  --- Embedded Best Practices ---
+  1. volatile for ALL hardware register accesses
+  2. Use uint32_t, int16_t (exact-width types)
+  3. Keep ISRs short ΓÇö set flags, defer to main loop
+  4. Critical sections for ISR/main shared data
+  5. Initialize all variables (no OS to zero .bss for you)
+  6. Use linker scripts for memory layout
+  7. Watchdog timer: feed periodically or device resets
+  8. Cross-compile: arm-none-eabi-gcc -mcpu=cortex-m4
+
+============================================================
+  SECTION 25: C23 NEW FEATURES
+============================================================
+
+  --- Binary Literals & Digit Separators ---
+  0b10101010 = 170 (0xAA)
+  1'000'000  = 1000000
+  0xFF'FF'FF = 0xFFFFFF
+
+  --- Native bool ---
+  C23: bool, true, false are keywords (not macros)
+  sizeof(bool) = 1
+
+  --- nullptr ---
+  nullptr has type nullptr_t (not int like NULL)
+  Type-safe: can't accidentally use as integer
+
+  --- _BitInt(N) ---
+  _BitInt(N) provides arbitrary-width integers
+  e.g., _BitInt(3) is a 3-bit signed integer
+
+  --- typeof / typeof_unqual ---
+  typeof(x) y = 100; -> y is int (same as x)
+  typeof_unqual(const int) -> int (const stripped)
+
+  --- Attributes ---
+  [[nodiscard]]    ΓÇö warn if return value ignored
+  [[maybe_unused]] ΓÇö suppress unused warning
+  [[noreturn]]     ΓÇö function never returns
+  [[deprecated]]   ΓÇö mark as deprecated
+  [[fallthrough]]  ΓÇö intentional switch fall-through
+  [[reproducible]] ΓÇö same inputs -> same outputs
+  [[unsequenced]]  ΓÇö no side effects, no dependencies
+
+  --- #embed ---
+  #embed "file.dat" includes binary data as initializer
+  Parameters: limit(N), prefix(...), suffix(...), if_empty(...)
+
+  --- New Library Features ---
+  <stdbit.h>:     popcount, leading_zeros, bit_width, bit_ceil
+  <stdckdint.h>:  ckd_add(), ckd_sub(), ckd_mul() (overflow-checked)
+  memset_explicit(): guaranteed zeroing (not optimized away)
+  unreachable():    undefined behavior hint for optimizer
+  strdup/strndup(): now standardized (was POSIX-only)
+
+  --- Removed in C23 ---
+  Trigraphs, K&R function definitions, implicit int
+  register keyword (reserved but does nothing)
+  gets() (removed in C11, gone in C23)
+
+============================================================
+  SECTION 26: FILE ORGANIZATION & LIBRARIES
+============================================================
+
+  --- Header File (.h) Best Practices ---
+  1. Include guards:
+     #ifndef MY_HEADER_H
+     #define MY_HEADER_H
+     /* ... declarations ... */
+     #endif /* MY_HEADER_H */
+
+  2. Or use #pragma once (non-standard but widely supported)
+
+  3. What belongs in headers:
+     - Function prototypes
+     - Type definitions (typedef, struct, enum)
+     - Macro definitions
+     - static inline function definitions
+     - extern variable declarations
+
+  4. What does NOT belong:
+     - Function definitions (except static inline)
+     - Variable definitions (use extern in header, define in .c)
+     - #include of implementation-specific headers
+
+  --- Source File (.c) Best Practices ---
+  1. Include corresponding .h file first
+  2. Use static for file-internal functions and variables
+  3. One definition per translation unit
+
+  --- Build Commands ---
+  Compile to object:  gcc -c file.c -o file.o
+  Link objects:       gcc main.o utils.o -o program
+  Static library:     ar rcs libutil.a utils.o
+  Link static:        gcc main.o -L. -lutil -o program
+  Shared library:     gcc -shared -fPIC utils.c -o libutil.so
+  Link shared:        gcc main.o -L. -lutil -o program
+  Run with shared:    LD_LIBRARY_PATH=. ./program
+
+  --- Opaque Pointer Pattern (Encapsulation) ---
+  /* In header: */
+  typedef struct Vector Vector;  /* forward declaration */
+  Vector *vec_create(void);
+  void vec_push(Vector *v, int x);
+  void vec_destroy(Vector *v);
+
+  /* In source: */
+  struct Vector { int *data; size_t len, cap; };
+  /* Users can't access internals ΓÇö true encapsulation */
+
+============================================================
+  SECTION 27: INTERFACING C WITH OTHER LANGUAGES
+============================================================
+
+  --- Simple FFI Functions ---
+  ffi_add(3, 4) = 7
+  ffi_average = 3.50
+  ffi_greet = "Hello, World!"
+
+  --- Opaque Handle Pattern ---
+  obj_get_x = 10
+
+  --- Language-Specific FFI ---
+  Python:  ctypes.cdll.LoadLibrary("./lib.so")
+  Rust:    extern "C" { fn ffi_add(a: i32, b: i32) -> i32; }
+  C++:     extern "C" { int ffi_add(int a, int b); }
+  Java:    JNI: native int ffi_add(int a, int b);
+  Go:      // #include "header.h" import "C"
+  C#:      [DllImport("lib")] static extern int ffi_add(int a, int b);
+
+  --- FFI Best Practices ---
+  1. Use C linkage (no name mangling)
+  2. Standard integer types (int32_t, uint64_t)
+  3. Opaque handles for encapsulation
+  4. Document pointer ownership
+  5. Return error codes, not complex structures
+  6. Avoid variadic functions across FFI
+  7. Use #pragma pack for consistent struct layout
+
+============================================================================
+  ALL 27 SECTIONS COMPLETE
+  Topics covered:
+    1.  Program Structure & Compilation
+    2.  Lexical Elements (Tokens, Keywords, Constants)
+    3.  Data Types (Integers, Floats, Complex, Limits)
+    4.  Operators (Arithmetic, Bitwise, Logical, Precedence)
+    5.  Control Flow (if, switch, for, while, goto)
+    6.  Arrays (1D, 2D, VLA, Designated Init)
+    7.  Pointers (Arithmetic, Const, Double, Function Ptrs)
+    8.  Functions (Variadic, Inline, Recursion, Callbacks)
+    9.  Structs, Unions, Enums (Bit-fields, Tagged Union)
+    10. Dynamic Memory (malloc, calloc, realloc, free)
+    11. Strings (Safe Ops, Search, Tokenize, Memory Funcs)
+    12. Preprocessor (Macros, Conditional, X-Macros)
+    13. I/O (printf, File, Binary, sscanf, Positioning)
+    14. Type Conversions (Implicit, Explicit, _Generic)
+    15. Scope, Linkage, Storage Duration
+    16. Error Handling (errno, setjmp, assert, Cleanup)
+    17. Concurrency (Threads, Mutex, Atomics, Race Cond)
+    18. Signal Handling (Signals, Handlers, Safety)
+    19. Math, Time, Random Numbers
+    20. Data Structures (List, Hash Table, Stack)
+    21. UB, Unspecified, Implementation-Defined Behavior
+    22. Performance Optimization (Cache, restrict, LTO)
+    23. Security (Buffer Overflow, Format String, CERT C)
+    24. Embedded C (Volatile, MMIO, Interrupts, Linker)
+    25. C23 New Features (bool, nullptr, typeof, #embed)
+    26. File Organization & Libraries
+    27. Interfacing C with Other Languages
+============================================================================
+
+Process finished with exit code 0
