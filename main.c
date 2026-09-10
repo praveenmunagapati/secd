@@ -3,25 +3,15 @@
 int main(void) {
     setbuf(stdout,0);
     //realational operators
-    // = ,
-    // assigment operator
+    // > < >= <= != ==
     int a = 10;
-    int b = 4,c = 50,d = 56;
-    a += 1;
-    //a = a + 1;
-    printf("%d\n",a);
-    a -= 1;
-    //a = a - 1;
-    printf("%d\n",a);
-    a*=1;
-    //a = a * 1;
-    printf("%d\n",a);
-    a/=1;
-    //a = a / 1;
-    printf("%d\n",a);
-    a%=1;
-    //a = a & 1;
-    printf("%d\n",a);
+    int b = 15;
+    printf("%d\n",a>b);
+    printf("%d\n",a<b);
+    printf("%d\n",a>=b);
+    printf("%d\n",a<=b);
+    printf("%d\n",a==b);
+    printf("%d\n",a!=b);
 
 
 return 0;
