@@ -38,7 +38,7 @@ int main(void) {
     //^  ->   10100
 
     //bitwise complement ~
-    
+
 
 return 0;
 }
