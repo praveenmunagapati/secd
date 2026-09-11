@@ -1,3 +1,7 @@
-//
-// Created by sir on 11-09-2026.
-//
+#include<stdio.h>
+int main(void)
+{
+    setbuf(stdout,0);
+
+    return 0;
+}

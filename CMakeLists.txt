@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 4.2)
+cmake_minimum_required(VERSION 4.3)
 project(c C)
 
-set(CMAKE_C_STANDARD 23)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+
 add_executable(c main.c)
