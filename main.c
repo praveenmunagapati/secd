@@ -1,81 +1,137 @@
 #include<stdio.h>
-int main(void)
-{
-    setbuf(stdout,0);
-    //slection statements
-    //if else switch case default break
-    int a = 10;
-    int b = 15;
-    int result = a>b;
-    if (result){
-        printf("a is big");
-    }
-    result = b>a;
-    if (result) {
-        printf("b is big");
-    }
 
-    if (-7) {
+int main(void) {
+    start:
+    setbuf(stdout, 0);
+    //looooops
+    // while do for
+    //break continue goto
+    //print 1 to 10
+    printf("1\n");
+    printf("2\n");
+    printf("3\n");
+    printf("4\n");
+    printf("5\n");
+    printf("6\n");
+    printf("7\n");
+    printf("8\n");
+    printf("9\n");
+    printf("10\n");
+    //scalars
+    printf("%d\n", 1);
+    printf("%d\n", 2);
+    printf("%d\n", 3);
+    printf("%d\n", 4);
+    printf("%d\n", 5);
+    printf("%d\n", 6);
+    printf("%d\n", 7);
+    printf("%d\n", 8);
+    printf("%d\n", 9);
+    printf("%d\n", 10);
+    int var = 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+    var = var + 1;
+    printf("%d\n", var);
+
+    var = 1;
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    printf("%d\n", var++);
+    var = 1;
+    //while
+    while (var <= 10) {
+        printf("%d\n", var++);
+    }
+    var = 1;
+
+    while (0) {
+        printf("hi");
+    }
+    while (1) {
         printf("praneetha");
+        break;
+    }
+    while (0) {
+        printf("hi");
+    }
+    do {
+        printf("x");
+    } while (0);
+
+    //for
+    /*
+     *
+     */
+    var = 1;
+    //while
+    while (var <= 10) {
+        printf("%d\n", var++);
+    }
+    for (int var = 1;var <= 10;var++) {
+        printf("%d\n", var);
+    }
+    for (;1;) {
+        printf("praneetha\n");
+        break;
     }
 
-    int c = 20;
-
-    if (a>b) {
-        if (a>c) {
-            printf("a is big");
+    //continue
+    var = 1;
+    while (var <= 10) {
+        if (var == 5) {
+            var++;
+            continue;
         }
+        printf("%d\n", var++);
     }
-    if (b>a) {//b>a  && b>c
-        if (b>c) {
-            printf("b is big\n");
+    var = 1;
+    while (var <= 10) {
+        if (var % 2 == 1) {
+            var++;
+            continue;
         }
+        printf("%d\n", var++);
     }
-    if (c>a) {
-        if (c>b) {
-            printf("c is big\n");
+    var = 1;
+    while (var <= 10) {
+        if (var % 2 == 0) {
+            var++;
+            continue;
         }
+        printf("%d\n", var++);
     }
-    a = 15;
-    b = 20;
-    if (a>b) {
-        printf("a is big\n");
-    }else {
-        printf("b is big\n");
-    }
-    //else
-    //else if ladder
-    a = 15;
-    b = 20;
-    c = 16;
-    if (a > b && a > c) {
-        printf("a is big\n");
-    } else if (b > a && b > c) {
-        printf("b is big\n");
-    } else if (c > a && c > b) {
-        printf("c is big\n");
-    }
-    // ?:
-    a = 15;
-    b = 20;
-    printf(a>b?"a is big":"b is big\n");
+    //goto
 
-    //switch
-    // case
-    //break
-    //default
-    a = 15;
-    b = 20;
-    char choice = 'r';
-    switch(choice) {
-        case '+' : printf("%d + %d =  %d\n",a,b,a+b);break;
-        case '-' : printf("%d - %d =  %d\n",a,b,a-b);break;
-        case '*' : printf("%d * %d =  %d\n",a,b,a*b);break;
-        case '/' : printf("%d / %d =  %f\n",a,b,(float)a/b);break;
-        case '%' : printf("%d mod %d =  %d\n",a,b,a%b);break;
+    greetings:
+        printf("anitha\n");
+        goto exit;
+    goto greetings;
+    exit:
+        printf("never goto \n");
 
-            default:printf("no ops");break;
-    }
-
+    goto start;
     return 0;
 }
