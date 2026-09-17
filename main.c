@@ -1,35 +1,37 @@
 #include<stdio.h>
-void tableprint(int table,int row);//function signature
+
+void printbinary(unsigned int num) {
+    for (int i = 128;i!=0;i>>=1) {
+        printf("%d",num&i?1:0);
+    }
+    printf("\n");
+    return;
+}
 int main(void) {
     setbuf(stdout, 0);
-//c) Write a program that prints a multiplication table
-//for a given number and the number of rows in
-// the table. For example, for a number 5 and rows = 3,
-// the output should be:
-// 5 x 1 = 5
-// 5 x 2 = 10
-// 5 x 3 = 15
+    //d) Write a program that shows
+    //the binary equivalent of a given positive number between 0 to 255.
 
-    int table = 19;
-    int row = 10;
-    for (int i = 1; i<=row;i++) {
-        printf("%d x %d = %d\n",table,i,table * i);
+    unsigned int num =  179;
+
+    //&
+    //10 -> 1010
+    // 8  -> 1000
+    //10 -> 1010
+    // 4   -> 0100
+    //10 -> 1010
+    // 2   -> 0010
+    //10 -> 1010
+    // 1  -> 0001
+    for (int i = 128;i!=0;i>>=1) {
+        printf("%d",num&i?1:0);
     }
-    tableprint(15,10);
-    tableprint(19,10);
-    tableprint(89,10);
-    tableprint(157,10);
-    tableprint(689,10);
-    tableprint(265,10);
-    tableprint(10,10);
+    printf("\n");
 
-
-
+    printbinary(188);
+    printbinary(59);
+    printbinary(16);
+    printbinary(1);
+    printbinary(15);
     return 0;
-}
-void tableprint(int table,int row) {
-    for (int i = 1; i<=row;i++) {
-        printf("%d x %d = %d\n",table,i,table * i);
-    }
-    return;
 }
