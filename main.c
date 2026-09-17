@@ -1,28 +1,35 @@
 #include<stdio.h>
-float simpleinterest(unsigned int principle,unsigned int time,float rate) {
-    float si  = (principle * time * rate) / 100;
-    return si;
-}
+void tableprint(int table,int row);//function signature
 int main(void) {
     setbuf(stdout, 0);
-    //b) Write the program for the simple interest
-    //si ptr/100
-    unsigned int principle = 100000;
-    unsigned int time = 15;
-    float rate = 2.5;
-    float si  = simpleinterest(principle,time,rate);
-    printf("%f\n",si);
-    si  = simpleinterest(principle,12,rate);
-    printf("%f\n",si);
-    si  = simpleinterest(principle,time,rate);
-    printf("%f\n",si);
-    si  = simpleinterest(principle,time,1.97);
-    printf("%f\n",si);
-    si  = simpleinterest(1566000,time,rate);
-    printf("%f\n",si);
-    si  = simpleinterest(principle,89,rate);
-    printf("%f\n",si);
+//c) Write a program that prints a multiplication table
+//for a given number and the number of rows in
+// the table. For example, for a number 5 and rows = 3,
+// the output should be:
+// 5 x 1 = 5
+// 5 x 2 = 10
+// 5 x 3 = 15
+
+    int table = 19;
+    int row = 10;
+    for (int i = 1; i<=row;i++) {
+        printf("%d x %d = %d\n",table,i,table * i);
+    }
+    tableprint(15,10);
+    tableprint(19,10);
+    tableprint(89,10);
+    tableprint(157,10);
+    tableprint(689,10);
+    tableprint(265,10);
+    tableprint(10,10);
+
 
 
     return 0;
+}
+void tableprint(int table,int row) {
+    for (int i = 1; i<=row;i++) {
+        printf("%d x %d = %d\n",table,i,table * i);
+    }
+    return;
 }
