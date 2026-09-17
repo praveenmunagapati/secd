@@ -1,18 +1,28 @@
 #include<stdio.h>
+float simpleinterest(unsigned int principle,unsigned int time,float rate) {
+    float si  = (principle * time * rate) / 100;
+    return si;
+}
 int main(void) {
     setbuf(stdout, 0);
-    //a) Write a program for finding the max and min from the three numbers.
-    int a =15,b = 15,c=150,max = 0,min = 0;
-    if (a>=b && a>=c) {
-        max = a;
-    }
-    if (b>=a && b>=c) {
-        max = b;
-    }
-    if (c>=a && c>=b) {
-        max = c;
-    }
-    printf("%d\n",max);
+    //b) Write the program for the simple interest
+    //si ptr/100
+    unsigned int principle = 100000;
+    unsigned int time = 15;
+    float rate = 2.5;
+    float si  = simpleinterest(principle,time,rate);
+    printf("%f\n",si);
+    si  = simpleinterest(principle,12,rate);
+    printf("%f\n",si);
+    si  = simpleinterest(principle,time,rate);
+    printf("%f\n",si);
+    si  = simpleinterest(principle,time,1.97);
+    printf("%f\n",si);
+    si  = simpleinterest(1566000,time,rate);
+    printf("%f\n",si);
+    si  = simpleinterest(principle,89,rate);
+    printf("%f\n",si);
+
 
     return 0;
 }
