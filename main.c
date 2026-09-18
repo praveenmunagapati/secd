@@ -2,27 +2,45 @@
 #include<math.h>
 int main(void) {
     setbuf(stdout, 0);
-    // printf("%lf\n",floor(1.6));
-    // printf("%lf\n",ceil(1.6));
-    // printf("%lf\n",sin(0));
-    // printf("%lf\n",cos(0));
-    // printf("%lf\n",sin(90));
-    // printf("%lf\n",pow(2,8));
-    // printf("%lf\n",sqrt(2));
+    int x = 10;
+    printf("%d\n",x);
+    printf("%p\n",&x);
+    printf("%d\n",*(&x));
+    //pointer
+    //rule 1 pointer never hold any value
+    //it only holds address
+    int *px;
+    px = &x;
+    printf("%p\n",&px);
+    printf("%p\n",px);
+    printf("%d\n",*px);
+    printf("%d\n",sizeof(px));
+    *px = 15;
+    printf("%d\n",x);
+    *px += 15;
+    printf("%d\n",x);
+    int k = 89;
+    px = &k;
+    printf("%p\n",&px);
+    printf("%p\n",&k);
+    printf("%p\n",px);
+    printf("%d\n",*px);
 
-
-    printf("%0.25lf\n",0.1);
-    printf("%0.25lf\n",0.2);
-    printf("%0.25lf\n",0.3);
-    printf("%0.25lf\n",0.1+0.2);
-
-    if((0.1+0.2)==0.3) {
-        printf("true");
-    }
-    double i= 0.1;
-    for ( ; i <= 100000000 ; i+=0.1);
-    printf("%0.25lf\n",i);
-
-
+   float f = 1.5;
+    //px = &f; //not gonna work only int tyle
+   // printf("%f\n",*px);
+    short s = 10;
+    // px = &s; //only int types
+    // printf("%d\n",*px);
+    int l = 5;
+    // px = &l; //only int type
+    // printf("%d\n",*px);
+    //generic pointer
+    void *gp = &l;
+    printf("%i\n",*(int *)gp);
+    gp = &f;
+    printf("%f\n",*(float *)gp);
+    gp = &s;
+    printf("%i\n",*(short *)gp);
     return 0;
 }
