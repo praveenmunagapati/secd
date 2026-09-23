@@ -1,41 +1,26 @@
 #include<stdio.h>
-#include<math.h>
-void bubblesort(int *array) {
-    for (int i = 0; i < 10; ++i) {
-        for (int j = 0; j < 10; ++j) {
-            if (array[i]<array[j]) {
-                int temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
-        }
-    }
-    return;
-}
+#include<string.h>
 int main(void) {
     setbuf(stdout, 0);
-    //searching in linear array
+    //parallel arrays
     int array[10] = {15,78,14,59,3,45,72,9,6,7};
+    //strings
+    char name[10] = {'p','r','a','n','e','e','t','h','a','\0'};//null indecats end of string
+    for (int i = 0; i < 10; ++i) {
+        printf("%c",name[i]);
+    }
+    printf("\n%s\n",name);
+    puts(name);
 
-    printf("\nbefore sorting\n");
-    for (int i = 0; i < 10; ++i) {
-        printf("%d\t",array[i]);
-    }
-    bubblesort(array);
-    printf("\nafter sorting\n");
-    for (int i = 0; i < 10; ++i) {
-        printf("%d\t",array[i]);
-    }
+    char *me = "muskaan";
+    printf("\n%p",me);//address where the string created
+    printf("\n%s",me);
 
-    int array1[10] = {15,78,14,8,3,74,72,9,6,7};
-    printf("\nbefore sorting\n");
-    for (int i = 0; i < 10; ++i) {
-        printf("%d\t",array1[i]);
-    }
-    bubblesort(array1);
-    printf("\nafter sorting\n");
-    for (int i = 0; i < 10; ++i) {
-        printf("%d\t",array1[i]);
-    }
+    printf("\n%d",strlen(me));
+    printf("\n%d",strlen(name));
+    printf("\n%d",strlen(name));
+
+
+
     return 0;
 }
