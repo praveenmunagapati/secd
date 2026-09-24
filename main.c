@@ -11,16 +11,11 @@ int main(void) {
     }
     printf("\n%s\n",name);
     puts(name);
-
     char *me = "muskaan";
     printf("\n%p",me);//address where the string created
     printf("\n%s",me);
-
     printf("\n%d",strlen(me));
     printf("\n%d",strlen(name));
-    printf("\n%d",strlen(name));
-
-
-
+    strcpy(name,me);
     return 0;
 }
