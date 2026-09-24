@@ -3,19 +3,31 @@
 int main(void) {
     setbuf(stdout, 0);
     //parallel arrays
-    int array[10] = {15,78,14,59,3,45,72,9,6,7};
-    //strings
-    char name[10] = {'p','r','a','n','e','e','t','h','a','\0'};//null indecats end of string
-    for (int i = 0; i < 10; ++i) {
-        printf("%c",name[i]);
+    char *names[3];
+    int ppsmarks[3];
+    names[0]="praneetha";
+    names[1]="hanish";
+    names[2]="ram";
+    puts(names[0]);
+    puts(names[1]);
+    puts(names[2]);
+
+    char anames[3][20] = {{"praneetha"},{"hanish"},{"ram"}};
+    printf("%d\n",sizeof(anames));
+    strcpy(anames[0],"hanish");
+    strcpy(anames[0],"praneetha");
+    strcpy(anames[0],"ram");
+    ppsmarks[0] = 80;
+    ppsmarks[1] = 90;
+    ppsmarks[2] = 78;
+    for (int i = 0; i < 3; ++i) {
+        printf("name %s marks %d\n",anames[i],ppsmarks[i]);
     }
-    printf("\n%s\n",name);
-    puts(name);
-    char *me = "muskaan";
-    printf("\n%p",me);//address where the string created
-    printf("\n%s",me);
-    printf("\n%d",strlen(me));
-    printf("\n%d",strlen(name));
-    strcpy(name,me);
+    int id = 1;
+    for (int i = 0; i < 3; ++i) {
+        if (id==i) {
+            printf("name %s marks %d\n",anames[i],ppsmarks[i]);
+        }
+    }
     return 0;
 }
