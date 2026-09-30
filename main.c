@@ -2,8 +2,10 @@
 int main(void) {
     setbuf(stdout, 0);
 
-    //revision for binary numbers and hex numbers and binary addition and
-    //1's completement and 2's complement
-
+    //revision
+    //Overview of C:C Language Elements,
+    //Variable Declarations and Data Types,
+    //Executable Statements, General Form of a C Program
+    
     return 0;
 }
