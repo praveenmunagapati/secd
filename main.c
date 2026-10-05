@@ -3,6 +3,7 @@
 static int k;
 
 int foo() {
+    static int k;
     printf("%d\n",k);
     k++;
     return k;
@@ -16,12 +17,7 @@ int main(void) {
     printf("%d\n",foo());
     printf("%d\n",foo());
     printf("%d\n",foo());
-    // printf("%d\n",k);
-    // externalfun();//out of scope
-    // staticfoo();
-    static int array[10];
-    for (int i = 0; i < 10; ++i) {
-        printf("%d\t",array[i]);
-    }
+    printf("%d\n",k);
+
     return 0;
 }
