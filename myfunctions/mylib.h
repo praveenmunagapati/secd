@@ -8,4 +8,5 @@ void printbinary(unsigned int num);
 float simpleinterest(unsigned int principle,unsigned int time,float rate);
 void externalfun(void);
 static void staticfoo(void);
+void testextern(void);
 #endif //C_MYLIB_H

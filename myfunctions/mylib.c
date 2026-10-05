@@ -21,3 +21,8 @@ static void staticfoo(void) {
     printf(" static funtion");
 
 }
+void testextern(void) {
+    extern int k;
+    k++;
+    printf("%d\n",k);
+}
