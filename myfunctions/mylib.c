@@ -13,3 +13,11 @@ float simpleinterest(unsigned int principle,unsigned int time,float rate) {
     float si  = (principle * time * rate) / 100;
     return si;
 }
+// void externalfun(void) {
+//     printf("%d",k);
+//
+// }//cant use static k here
+static void staticfoo(void) {
+    printf(" static funtion");
+
+}
