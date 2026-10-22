@@ -12,26 +12,20 @@ int main() {
     // 12 5 8 25 15 20
     // 20
 
-    int array[5] = {18 ,201, 530, 320, 50};
-
-    int max = array[0];
+    int array[5] = {1,2,3,4,5};
+    int big = array[0];
+    int littlebig = array[1];
     for (int i = 0; i < 5; ++i) {
-        if (max<array[i]) {
-            max = array[i];
+        if ( big < array[i]) {
+            littlebig  = big;
+            big = array[i];
+        }else if (littlebig!=big && littlebig<array[i] ){
+            littlebig  = array[i];
         }
-    }
-    printf("%d\n",max);
-    int diff = max;
 
-    for (int i = 0; i < 5; ++i) {
-        if (diff == array[i]) {
-            continue;
-        }
-        if (diff > max-array[i]) {
-            diff = array[i];
-        }
     }
-    printf("%d\n",diff);
+    printf("%d\n",littlebig);
+
 
 
 
