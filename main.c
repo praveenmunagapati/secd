@@ -12,7 +12,7 @@ int main() {
     // 12 5 8 25 15 20
     // 20
 
-    int array[5] = {10,20, 30, 40, 50};
+    int array[5] = {18 ,201, 530, 320, 50};
 
     int max = array[0];
     for (int i = 0; i < 5; ++i) {
@@ -21,22 +21,18 @@ int main() {
         }
     }
     printf("%d\n",max);
-    for (int i = 0; i < 5; ++i) {
-        if (max==array[i]) {
-            array[i] = -1;
-        }
-    }
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\n",array[i]);
+    int diff = max;
 
-    }
-    max = array[0];
     for (int i = 0; i < 5; ++i) {
-        if (max<array[i]) {
-            max = array[i];
+        if (diff == array[i]) {
+            continue;
+        }
+        if (diff > max-array[i]) {
+            diff = array[i];
         }
     }
-    printf("%d\n",max);
+    printf("%d\n",diff);
+
 
 
     return 0;
