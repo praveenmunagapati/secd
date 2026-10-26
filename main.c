@@ -1,41 +1,22 @@
 #include <stdio.h>
-
-void foo(void) {
-    // int array[100000000]= {0};
-    printf("foo\n");
-    foo();
-    return;
-}
-
-void foo1(void) {
-    // int array[100000000]= {0};
-    int i = 1;
-    printf("%d\n",i++);
-    foo1();
-    return;
-}
-
-void foo2(int i) {
-    // int array[100000000]= {0};
-    printf("%d\n",i++);
-    foo2(i);
-    return;
-}
-
-void foo3(int i) {
-
-    if (i == 11) {
-        return ;
+void factorial(int i) {
+    if (i == 0) {
+        return;
     }
-    printf("%d\n",i++);
-    foo3(i);
+    printf("%d\n",i);
+    factorial(--i);
     return;
 }
 int main() {
     setbuf(stdout,0);
-    // foo();//bad idea
-    //foo1();//bad idea 1
-    //foo2(1);//no exit condition
-    foo3(1);
+    //factorial without recursion
+    int num = 5;
+    int result = 1;
+    for (int i = num ; i > 0; --i) {
+        // printf("%d\n",i);
+        result*=i;
+    }
+    printf("%d\n",result);
+    factorial(5);
     return 0;
 }
