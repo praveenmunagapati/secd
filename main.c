@@ -1,23 +1,41 @@
 #include <stdio.h>
-#include <string.h>
 
+void foo(void) {
+    // int array[100000000]= {0};
+    printf("foo\n");
+    foo();
+    return;
+}
 
+void foo1(void) {
+    // int array[100000000]= {0};
+    int i = 1;
+    printf("%d\n",i++);
+    foo1();
+    return;
+}
+
+void foo2(int i) {
+    // int array[100000000]= {0};
+    printf("%d\n",i++);
+    foo2(i);
+    return;
+}
+
+void foo3(int i) {
+
+    if (i == 11) {
+        return ;
+    }
+    printf("%d\n",i++);
+    foo3(i);
+    return;
+}
 int main() {
     setbuf(stdout,0);
-    char anames[3][20] = {{"praneetha"},{"hanish"},{"ram"}};
-    printf("%d\n",sizeof(anames));
-    strcpy(anames[0],"hanish");
-    strcpy(anames[2],"praneetha");
-    strcpy(anames[1],"ram");
-    for (int i = 0; i < 3; ++i) {
-        printf("name %s\n",anames[i]);
-    }
-    char *names[3];
-    names[0]="praneetha";
-    names[1]="hanish";
-    names[2]="ram";
-    puts(names[0]);
-    puts(names[1]);
-    puts(names[2]);
+    // foo();//bad idea
+    //foo1();//bad idea 1
+    //foo2(1);//no exit condition
+    foo3(1);
     return 0;
 }
