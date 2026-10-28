@@ -1,31 +1,27 @@
+#include <ctype.h>
 #include <stdio.h>
-int  factorialr(int i) {
-    if (i == 0) {
-        return 1 ;
+int sumofnatural(int num) {
+    int total = 0;
+    for (int i = 1; i < 101; ++i) {
+        total += i;
     }
-    // for (int i = num ; i > 0; --i) {
-    //     // printf("%d\n",i);
-    //     result*=i;
-    // }
-
-    return i * factorialr(i-1);
+    return total;
+}
+int sumofnaturalr(int num) {
+    return num ? num + sumofnaturalr(num - 1 ): 0;
 }
 
-int factorial(int num) {
-    int result = 1;
-    for (int i = num ; i > 0; --i) {
-        // printf("%d\n",i);
-        result*=i;
-    }
-    return result;
-}
 
 int main() {
     setbuf(stdout,0);
-    //factorial without recursion
-    int result;
-    int num = 5;
-   printf("%d\n", factorial(num));
-   printf("%d\n", factorialr(num));
+    int num = 100;
+    int total = 0;
+    for (int i = 1; i < 101; ++i) {
+        total += i;
+    }
+    printf("%d\n",total);
+    printf("%d\n",sumofnatural(num));
+    printf("%d\n",sumofnaturalr(num));
+
     return 0;
 }
