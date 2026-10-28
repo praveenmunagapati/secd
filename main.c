@@ -1,22 +1,31 @@
 #include <stdio.h>
-void factorial(int i) {
+int  factorialr(int i) {
     if (i == 0) {
-        return;
+        return 1 ;
     }
-    printf("%d\n",i);
-    factorial(--i);
-    return;
+    // for (int i = num ; i > 0; --i) {
+    //     // printf("%d\n",i);
+    //     result*=i;
+    // }
+
+    return i * factorialr(i-1);
 }
-int main() {
-    setbuf(stdout,0);
-    //factorial without recursion
-    int num = 5;
+
+int factorial(int num) {
     int result = 1;
     for (int i = num ; i > 0; --i) {
         // printf("%d\n",i);
         result*=i;
     }
-    printf("%d\n",result);
-    factorial(5);
+    return result;
+}
+
+int main() {
+    setbuf(stdout,0);
+    //factorial without recursion
+    int result;
+    int num = 5;
+   printf("%d\n", factorial(num));
+   printf("%d\n", factorialr(num));
     return 0;
 }
