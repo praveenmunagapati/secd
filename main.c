@@ -1,27 +1,51 @@
 #include <ctype.h>
 #include <stdio.h>
-int sumofnatural(int num) {
-    int total = 0;
-    for (int i = 1; i < 101; ++i) {
-        total += i;
+int arraysum(int *parray) {
+    int sum = 0;
+    for (int i = 0; i < 5; ++i) {
+        sum+=parray[i];
     }
-    return total;
+    return sum;
 }
-int sumofnaturalr(int num) {
-    return num ? num + sumofnaturalr(num - 1 ): 0;
+//rigid recursion
+int arraysumr(int *parray) {
+    if (*parray == 7) {
+        return 7;
+    }
+    return *parray + arraysumr(parray+1) ;
 }
-
+int arraysumrf(int *parray,int lenght) {
+    if (lenght < 1) {
+        return 0;
+    }
+    return *parray + arraysumrf(parray+1 , lenght -1) ;
+}
 
 int main() {
     setbuf(stdout,0);
-    int num = 100;
-    int total = 0;
-    for (int i = 1; i < 101; ++i) {
-        total += i;
+    int array[5] = {4,6,8,9,7};
+    int sum = 0;
+    for (int i = 0; i < 5; ++i) {
+        sum+=array[i];
     }
-    printf("%d\n",total);
-    printf("%d\n",sumofnatural(num));
-    printf("%d\n",sumofnaturalr(num));
+    printf("%d\n",sum);
+    printf("%p\n",array);
+    printf("%d\n",arraysum(array));
+    //printf("%d\n",arraysumr(array));
+    int *parray = array;
+    printf("%p\n",array);
+    printf("%p\n",parray);
+    printf("%d\n",*parray++);
+    printf("%d\n",*parray++);
+    printf("%d\n",*parray++);
+    printf("%d\n",*parray++);
+    printf("%d\n",*parray);
+    printf("%d\n",arraysumr(array));
+    printf("%d\n",arraysumrf(array,sizeof(array)/sizeof(int)));
+
+
+
+
 
     return 0;
 }
