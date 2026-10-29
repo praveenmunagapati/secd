@@ -1,32 +1,94 @@
 #include <stdio.h>
-#include <string.h>
-int  mystrlen(const char *_Str) {
-    const char *s = _Str;
-    while (*s) {
-        s++;
-    }
-    return (size_t)(s - _Str);
+#include<string.h>
+struct student {
+    char *names;
+    int ppsmarks;
+};
+void callbyreference(int *p) {
+    *p = 156;
 }
-int  mystrlenr(const char *_Str) {
-    const char *s = _Str;
-    if (*s=='\000') {
-        return 0;
+void callbyreferencearray(int *pa) {
+
+    for (int i = 0; i < 5; ++i) {
+        printf("%d\t",pa[i]);
     }
-    return 1 + mystrlenr(s + 1);
 }
 int main() {
     setbuf(stdout,0);
-    char *name = "bharathi";
-    printf("%s\n",name);
-    printf("%d\n",strlen(name));
-    printf("%d\n",mystrlen(name));
-    //printf("%d\n",mystrlenr(name));
+    char *names[3];
+    int ppsmarks[3];
+    names[0]="praneetha";
+    names[1]="hanish";
+    names[2]="ram";
+    puts(names[0]);
+    puts(names[1]);
+    puts(names[2]);
 
-    while (*name) {
-        printf("%c\n",*name);
-        name++;
+    char anames[3][20] = {{"praneetha"},{"hanish"},{"ram"}};
+    printf("%d\n",sizeof(anames));
+    strcpy(anames[0],"hanish");
+    strcpy(anames[0],"praneetha");
+    strcpy(anames[0],"ram");
+    ppsmarks[0] = 80;
+    ppsmarks[1] = 90;
+    ppsmarks[2] = 78;
+    for (int i = 0; i < 3; ++i) {
+        printf("name %s marks %d\n",anames[i],ppsmarks[i]);
     }
-    name = "bharathi";
-    printf("%d\n",mystrlenr(name));
+    // struct student[3];
+
+    int x = 10;
+    printf("%d\n",x);
+    printf("%p\n",&x);
+    printf("%d\n",*(&x));
+    int *p = &x;
+    *p = 15;
+    printf("%d\n",*p);
+    printf("%d\n",*p+5);
+    printf("%d\n",*(p+5));
+    printf("%p\n",(p+5));
+    int array[5] = {8,9,5,4,6};
+    for (int i = 0; i < 5; ++i) {
+        printf("%d\t",array[i]);
+    }
+    printf("\n");
+    for (int i = 0; i < 5; ++i) {
+        printf("%d\t",i[array]);
+    }
+    printf("\n");
+
+    for (int i = 0; i < 5; ++i) {
+        printf("%p\t",(array +  i));
+    }
+    for (int i = 0; i < 5; ++i) {
+        printf("%d\t",*(array +  i));
+    }
+    callbyreference(&x);
+    printf("%d\n",x);
+    printf("\n");
+
+    printf("%p\n",&array);
+    printf("%p\n",&array[0]);
+    printf("\n");
+
+    int *pa;
+    pa = array;
+    for (int i = 0; i < 5; ++i) {
+        printf("%p\t",&array[i]);
+    }
+    for (int i = 0; i < 5; ++i) {
+        printf("%p\t",&pa[i]);
+    }
+    for (int i = 0; i < 5; ++i) {
+        printf("%d\t",pa[i]);
+    }
+    for (int i = 0; i < 5; ++i) {
+        printf("%d\t",*(pa + i));
+    }
+    callbyreferencearray(array);
+    for (int i = 0; i < 5; ++i) {
+        printf("%d\t",*pa++);
+    }
+
     return 0;
 }
