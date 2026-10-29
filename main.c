@@ -4,15 +4,6 @@ struct student {
     char *names;
     int ppsmarks;
 };
-void callbyreference(int *p) {
-    *p = 156;
-}
-void callbyreferencearray(int *pa) {
-
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\t",pa[i]);
-    }
-}
 int main() {
     setbuf(stdout,0);
     char *names[3];
@@ -35,101 +26,34 @@ int main() {
     for (int i = 0; i < 3; ++i) {
         printf("name %s marks %d\n",anames[i],ppsmarks[i]);
     }
-    // struct student[3];
+    struct student s1;
+    printf("%d\n",sizeof(s1));
+    printf("%d\n",sizeof(s1.names));
+    printf("%d\n",sizeof(s1.ppsmarks));
+    printf("%p\n",&s1);
+    printf("%p\n",&s1.names);
+    printf("%p\n",&s1.ppsmarks);
+    s1.names = "jio";
+    s1.ppsmarks = 25;
+    printf("%d\n",s1.names);
+    printf("%d\n",s1.ppsmarks);
 
-    int x = 10;
-    printf("%d\n",x);
-    printf("%p\n",&x);
-    printf("%d\n",*(&x));
-    int *p = &x;
-    *p = 15;
-    printf("%d\n",*p);
-    printf("%d\n",*p+5);
-    printf("%d\n",*(p+5));
-    printf("%p\n",(p+5));
-    int array[5] = {8,9,5,4,6};
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\t",array[i]);
-    }
-    printf("\n");
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\t",i[array]);
-    }
-    printf("\n");
-
-    for (int i = 0; i < 5; ++i) {
-        printf("%p\t",(array +  i));
-    }
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\t",*(array +  i));
-    }
-    callbyreference(&x);
-    printf("%d\n",x);
-    printf("\n");
-
-    printf("%p\n",&array);
-    printf("%p\n",&array[0]);
-    printf("\n");
-
-    int *pa;
-    pa = array;
-    for (int i = 0; i < 5; ++i) {
-        printf("%p\t",&array[i]);
-    }
-    for (int i = 0; i < 5; ++i) {
-        printf("%p\t",&pa[i]);
-    }
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\t",pa[i]);
-    }
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\t",*(pa + i));
-    }
-    callbyreferencearray(array);
-    for (int i = 0; i < 5; ++i) {
-        printf("%d\t",*pa++);
-    }
-    printf("\n");
-
-    char mynamea[5] = {'y','u','v','a','\0'};
-    puts(mynamea);
-    for (int i = 0; i < 5; ++i) {
-        printf("%p\t",&mynamea[i]);
-    }
-    for (int i = 0; i < 5; ++i) {
-        printf("%c\t",mynamea[i]);
-    }
-    printf("\n");
-
-    char *myname = "yuva";
-    for (int i = 0; i < 5; ++i) {
-        printf("%p\t",&myname[i]);
-    }
-    for (int i = 0; i < 5; ++i) {
-        printf("%c\t",myname[i]);
-    }
-    printf("\n");
-
-    // for (int i = 0; i < 5; ++i) {
-    //     printf("%c\t",*myname++);
-    // }
-    while (*myname) {
-        printf("%c\t",*myname);
-        *myname++;
-    }
-    printf("\n");
-
-    printf("%c\t",*myname);
-    *myname--;
-    printf("%c\t",*myname);
-    *myname--;
-    printf("%c\t",*myname);
-    *myname--;
-    printf("%c\t",*myname);
-    *myname--;
-    printf("%c\t",*myname);
-    *myname--;
-
+    struct student csmd[3];
+    printf("%d\n",sizeof(struct student));
+    printf("%d\n",sizeof(csmd[0].names));
+    printf("%d\n",sizeof(csmd[0].ppsmarks));
+    csmd[0].names = "rahul";
+    csmd[0].ppsmarks = 25;
+    csmd[1].names = "radha";
+    csmd[1].ppsmarks = 24;
+    csmd[2].names = "krishna";
+    csmd[2].ppsmarks = 20;
+    printf("%s\n",csmd[0].names);
+    printf("%d\n",csmd[0].ppsmarks);
+    printf("%s\n",csmd[1].names);
+    printf("%d\n",csmd[1].ppsmarks);
+    printf("%s\n",csmd[2].names);
+    printf("%d\n",csmd[2].ppsmarks);
 
 
     return 0;
