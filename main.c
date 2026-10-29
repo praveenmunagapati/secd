@@ -89,6 +89,48 @@ int main() {
     for (int i = 0; i < 5; ++i) {
         printf("%d\t",*pa++);
     }
+    printf("\n");
+
+    char mynamea[5] = {'y','u','v','a','\0'};
+    puts(mynamea);
+    for (int i = 0; i < 5; ++i) {
+        printf("%p\t",&mynamea[i]);
+    }
+    for (int i = 0; i < 5; ++i) {
+        printf("%c\t",mynamea[i]);
+    }
+    printf("\n");
+
+    char *myname = "yuva";
+    for (int i = 0; i < 5; ++i) {
+        printf("%p\t",&myname[i]);
+    }
+    for (int i = 0; i < 5; ++i) {
+        printf("%c\t",myname[i]);
+    }
+    printf("\n");
+
+    // for (int i = 0; i < 5; ++i) {
+    //     printf("%c\t",*myname++);
+    // }
+    while (*myname) {
+        printf("%c\t",*myname);
+        *myname++;
+    }
+    printf("\n");
+
+    printf("%c\t",*myname);
+    *myname--;
+    printf("%c\t",*myname);
+    *myname--;
+    printf("%c\t",*myname);
+    *myname--;
+    printf("%c\t",*myname);
+    *myname--;
+    printf("%c\t",*myname);
+    *myname--;
+
+
 
     return 0;
 }
